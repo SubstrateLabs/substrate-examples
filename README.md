@@ -24,5 +24,6 @@ npm install                     # Install dependencies
 npm start                       # Run example.ts
 
 # Run a Python example
+# Note: First install dependencies in the root directory (see above).
 poetry run python example.py    # Run example.py
 ```

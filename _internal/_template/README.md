@@ -9,17 +9,17 @@ export SUBSTRATE_API_KEY=ENTER_YOUR_KEY
 # Run the TypeScript example
 cd typescript                   # Navigate to the typescript example
 npm install                     # Install dependencies
-npm start                       # Run example.ts
+ts-node example.ts              # Run the example
 
 # Run the Python example
 # Note: First install dependencies in the root examples directory.
 cd python                       # Navigate to the python example
-poetry run python example.py    # Run example.py
+poetry run python example.py    # Run the example
 ```
 
 # Walkthrough
 
-This is a template that you can use as a starting point for a Substrate blog post or guide.
+To generate text with an LLM, use [`ComputeText`](https://www.substrate.run/nodes#ComputeText).
 
 In the code snippets below, note how we've simplified the example code to:
 
@@ -27,7 +27,7 @@ In the code snippets below, note how we've simplified the example code to:
 - Remove the main function
 - Combine getting the result of a node and printing it
 
-Try your best to simplify and limit extraneous content in example code.
+Try your best to limit extraneous content in both text and code.
 
 ```python Python
 # example.py
@@ -52,5 +52,3 @@ const res = await substrate.run(story);
 
 console.log(res.get(story).text);
 ```
-
-This is a basic example of using Substrate's `ComputeText` node to generate text using an LLM.
