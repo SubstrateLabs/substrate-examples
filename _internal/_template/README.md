@@ -20,6 +20,8 @@ poetry run python example.py    # Run the example
 
 </details>
 
+![hero](hero.png)
+
 To generate text with an LLM, use [`ComputeText`](https://www.substrate.run/nodes#ComputeText).
 
 In the code snippets below, note how we've simplified the example code to:
