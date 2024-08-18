@@ -1,7 +1,8 @@
 # Generate text with an LLM
 
-## Running this example
-
+<details>
+    <summary>How to run this example</summary>
+    
 ```bash
 # Set your API key as an environment variable.
 export SUBSTRATE_API_KEY=ENTER_YOUR_KEY
@@ -9,17 +10,17 @@ export SUBSTRATE_API_KEY=ENTER_YOUR_KEY
 # Run the TypeScript example
 cd typescript                   # Navigate to the typescript example
 npm install                     # Install dependencies
-ts-node example.ts              # Run the single example
-ts-node example-multi.ts        # Run the multi example
+ts-node example.ts              # Run the ComputeText example
+ts-node example-multi.ts        # Run the MultiComputeText example
 
 # Run the Python example
 # Note: First install dependencies in the root examples directory.
 cd python                             # Navigate to the python example
-poetry run python example.py          # Run the single example
-poetry run python example-multi.py    # Run the multi example
+poetry run python example.py          # Run the ComputeText example
+poetry run python example-multi.py    # Run the MultiComputeText example
 ```
 
-# Walkthrough
+</details>
 
 To generate text with an LLM, use [`ComputeText`](https://www.substrate.run/nodes#ComputeText).
 
