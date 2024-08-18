@@ -1,5 +1,5 @@
 #!/usr/bin/env -S npx ts-node --transpileOnly
-import { Substrate, ComputeText, sb } from "substrate";
+import { Substrate, ComputeText } from "substrate";
 
 async function main() {
   const apiKey = process.env["SUBSTRATE_API_KEY"] || "YOUR_API_KEY";

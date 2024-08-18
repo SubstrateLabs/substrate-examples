@@ -1,8 +1,7 @@
 import os
-import sys
 import time
-from pathlib import Path
-from substrate import Secrets, Substrate, ComputeText, sb
+from substrate import Substrate, ComputeText
+
 
 def main():
     api_key = os.environ.get("SUBSTRATE_API_KEY") or "YOUR_API_KEY"
@@ -23,11 +22,13 @@ def log_start():
     print("\033[94m֍ \033[34mRunning...\033[0m")
     return start
 
+
 def log_end(start):
     end = time.time()
     duration = end - start
     seconds = f"{duration:.2f}"
     print(f"\033[92m֍ \033[32mCompleted in {seconds}s\033[0m")
+
 
 if __name__ == "__main__":
     main()

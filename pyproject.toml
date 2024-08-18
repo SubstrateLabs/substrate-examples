@@ -8,6 +8,14 @@ authors = []
 python = "^3.9"
 substrate = "220240617.*"
 
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.1"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+output-format = "grouped"
+target-version = "py310"
