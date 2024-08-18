@@ -1,6 +1,7 @@
 # Title
 
-## Running this example
+<details>
+    <summary>How to run this example</summary>
 
 ```bash
 # Set your API key as an environment variable.
@@ -17,7 +18,7 @@ cd python                       # Navigate to the python example
 poetry run python example.py    # Run the example
 ```
 
-# Walkthrough
+</details>
 
 To generate text with an LLM, use [`ComputeText`](https://www.substrate.run/nodes#ComputeText).
 
@@ -52,3 +53,14 @@ const res = await substrate.run(story);
 
 console.log(res.get(story).text);
 ```
+
+When you're done, generate some images. You'll need a banner image.
+
+- For the text, keep it simple, e.g. you can just use the name of a node: `ComputeText`.
+
+```bash
+cd _internal
+poetry run marimo edit marketing.py
+```
+
+If your example is a graph, create a diagram.
