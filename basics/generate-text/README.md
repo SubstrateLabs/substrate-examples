@@ -22,6 +22,8 @@ poetry run python example-multi.py    # Run the MultiComputeText example
 
 </details>
 
+![hero](hero.png)
+
 To generate text with an LLM, use [`ComputeText`](https://www.substrate.run/nodes#ComputeText).
 
 ```python Python
