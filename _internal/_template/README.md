@@ -19,45 +19,38 @@ poetry run python example.py    # Run example.py
 
 # Walkthrough
 
-...Intro in a few sentences...
+This is a template that you can use as a starting point for a Substrate blog post or guide.
 
-...Walk through the code...
+In the code snippets below, note how we've simplified the example code to:
+
+- Use a hardcoded API key, rather than reading from an environment variable.
+- Remove the main function
+- Combine getting the result of a node and printing it
+
+Try your best to simplify and limit extraneous content in example code.
 
 ```python Python
 # example.py
-import os
 from substrate import Substrate, ComputeText
 
-def main():
-    api_key = os.environ.get("SUBSTRATE_API_KEY") or "YOUR_API_KEY"
-    substrate = Substrate(api_key=api_key)
+substrate = Substrate(api_key="YOUR_API_KEY")
 
-    story = ComputeText(prompt="tell me a short 2-sentence story")
-    response = substrate.run(story)
+story = ComputeText(prompt="tell me a short 2-sentence story")
+res = substrate.run(story)
 
-    story_out = response.get(story)
-    print(story_out.text)
+print(res.get(story).text)
 ```
 
 ```typescript TypeScript
 // example.ts
 import { Substrate, ComputeText } from "substrate";
 
-async function main() {
-  const apiKey = process.env["SUBSTRATE_API_KEY"] || "YOUR_API_KEY";
-  const substrate = new Substrate({ apiKey: apiKey });
+const substrate = new Substrate({ apiKey: "YOUR_API_KEY" });
 
-  const story = new ComputeText({ prompt: "tell me a short 2-sentence story" });
-  const res = await substrate.run(story);
+const story = new ComputeText({ prompt: "tell me a short 2-sentence story" });
+const res = await substrate.run(story);
 
-  const summaryOut = res.get(story);
-  console.log(summaryOut.text);
-}
+console.log(res.get(story).text);
 ```
 
-...Recap in a few sentences ....
-
-## See also
-
-- ...Related Substrate posts...
-- ...Substrate node documentation...
+This is a basic example of using Substrate's `ComputeText` node to generate text using an LLM.

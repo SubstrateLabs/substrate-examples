@@ -11,8 +11,7 @@ async function main() {
   const res = await substrate.run(story);
   logEnd(start);
 
-  const summaryOut = res.get(story);
-  console.log(summaryOut.text);
+  console.log(res.get(story).text);
 }
 
 main();

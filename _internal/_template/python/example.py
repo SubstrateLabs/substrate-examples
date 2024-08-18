@@ -10,11 +10,10 @@ def main():
     story = ComputeText(prompt="tell me a short 2-sentence story")
 
     start = log_start()
-    response = substrate.run(story)
+    res = substrate.run(story)
     log_end(start)
 
-    story_out = response.get(story)
-    print(story_out.text)
+    print(res.get(story).text)
 
 
 def log_start():
