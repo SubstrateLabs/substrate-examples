@@ -1,0 +1,69 @@
+[project]
+name = "example-generate-text"
+version = "0.1.0"
+description = ""
+authors = [{ name = "Ben Guo", email = "ben@substrate.run" }]
+readme = "README.md"
+
+requires-python = ">= 3.9"
+dependencies = ["substrate"]
+
+[project.scripts]
+example = "generatetext.example:main"
+example-multi = "generatetext.example_multi:main"
+
+[tool.ruff]
+line-length = 120
+output-format = "grouped"
+target-version = "py310"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+
+##############################
+# Uncomment for Poetry support
+##############################
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "example-generate-text"
+version = "0.1.0"
+description = ""
+authors = ["Ben Guo <ben@substrate.run>"]
+readme = "README.md"
+
+packages = [{ include = "generatetext", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+substrate = "220240617.*"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.1"
+marimo = "^0.8.0"
+
+[tool.poetry.scripts]
+example = "generatetext.example:main"
+example-multi = "generatetext.example_multi:main"
+
+###########################
+# Uncomment for Rye support
+###########################
+
+# [build-system]
+# requires = ["hatchling"]
+# build-backend = "hatchling.build"
+
+# [tool.rye]
+# managed = true
+# dev-dependencies = ["ruff>=0.6.1", "marimo>=0.8.0"]
+
+# [tool.hatch.metadata]
+# allow-direct-references = true
+
+# [tool.hatch.build.targets.wheel]
+# packages = ["src/generatetext"]

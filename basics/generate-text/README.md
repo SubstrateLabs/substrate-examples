@@ -15,9 +15,10 @@ ts-node example-multi.ts        # Run the MultiComputeText example
 
 # Run the Python example
 # Note: First install dependencies in the root examples directory.
-cd python                             # Navigate to the python example
-poetry run python example.py          # Run the ComputeText example
-poetry run python example-multi.py    # Run the MultiComputeText example
+cd python                       # Navigate to the python example
+poetry install                  # Install dependencies and build the example
+poetry run example              # Run the ComputeText example
+poetry run example-multi        # Run the MultiComputeText example
 ```
 
 </details>
