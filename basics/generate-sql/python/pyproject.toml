@@ -1,0 +1,78 @@
+[project]
+name = "generatesql"
+version = "0.1.0"
+description = ""
+authors = [{ name = "Hanwen Wu", email = "hwwu@substrate.run" }]
+readme = "README.md"
+
+requires-python = ">= 3.10"
+dependencies = [
+    "substrate @ git+https://github.com/SubstrateLabs/substrate-python",
+    "duckdb>=1.0.0",
+    "numpy>=2.0.1",
+    "pandas>=2.2.2",
+    "loguru>=0.7.2",
+]
+
+[project.scripts]
+main = "generatesql.example:main"
+
+[tool.ruff]
+line-length = 120
+output-format = "grouped"
+target-version = "py310"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+
+##############################
+# Uncomment for Poetry support
+##############################
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "generatesql"
+version = "0.1.0"
+description = ""
+authors = ["Hanwen Wu <hwwu@substrate.run>"]
+readme = "README.md"
+
+packages = [{ include = "generatesql", from = "src" }]
+
+[tool.poetry.dependencies]
+substrate = { git = "https://github.com/SubstrateLabs/substrate-python" }
+python = "^3.10"
+duckdb = "^1.0.0"
+numpy = "^2.1.0"
+pandas = "^2.2.2"
+loguru = "^0.7.2"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.1"
+marimo = "^0.8.0"
+
+[tool.poetry.scripts]
+main = "generatesql.example:main"
+
+
+###########################
+# Uncomment for Rye support
+###########################
+
+# [build-system]
+# requires = ["hatchling"]
+# build-backend = "hatchling.build"
+
+# [tool.rye]
+# managed = true
+# dev-dependencies = ["ruff>=0.6.1", "marimo>=0.8.0"]
+
+# [tool.hatch.metadata]
+# allow-direct-references = true
+
+# [tool.hatch.build.targets.wheel]
+# packages = ["src/generatesql"]
