@@ -9,9 +9,17 @@
 export SUBSTRATE_API_KEY=ENTER_YOUR_KEY
 
 # Run the TypeScript example
+
+# If using tsx:
 cd typescript                   # Navigate to the typescript example
 npm install                     # Install dependencies
-ts-node example.ts              # Run the example
+npx tsx example.ts              # Run the example
+
+# If using Deno:
+cd typescript
+deno run example.ts
+
+# Run the Python example
 
 # If using Poetry:
 cd python                       # Navigate to the python example
@@ -20,9 +28,9 @@ poetry run main                 # Run the example
 
 # If using Rye:
 # Update pyproject.toml to switch to Rye.
-cd python                       # Navigate to the python example
-rye sync                        # Install dependencies and build the example
-rye run main                    # Run the example
+cd python
+rye sync
+rye run main
 ```
 
 </details>
