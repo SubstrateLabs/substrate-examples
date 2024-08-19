@@ -1,10 +1,11 @@
 import os
+import sys
 import time
-from substrate import Substrate, GenerateCode
+
 import duckdb
 import pandas as pd
 from loguru import logger
-import sys
+from substrate import GenerateCode, Substrate
 
 
 def load_users() -> pd.DataFrame:
