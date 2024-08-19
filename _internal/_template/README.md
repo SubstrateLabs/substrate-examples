@@ -20,6 +20,19 @@ poetry run python example.py    # Run the example
 
 </details>
 
+We follow this procedure to create consistent, high volume content.
+
+1. Come up with a short readable slug, e.g. `generate-json` and a title.
+2. Create a folder in the [examples repo](https://github.com/SubstrateLabs/examples), copying this folder
+3. Write the code in TS or Python, and keep it simple. Ideally it’s just a script with no additional dependencies. 
+    1. Consider creating illustrative variations of the script (e.g. `ComputeText` and `MultiComputeText` - [example](https://github.com/SubstrateLabs/examples/tree/main/basics/generate-text))
+    2. Translate your script to the other language. (TODO: automated translation with Substrate)
+    3. Make sure both examples run and produce simple polished output.
+    4. Simplify the code
+        1. Wrap lines (multi-line node declarations are easier to read)
+        2. Consider inlining variables
+4. Fill out this README with walkthrough text and generate new image assets.
+
 ![hero](hero.png)
 
 To generate text with an LLM, use [`ComputeText`](https://www.substrate.run/nodes#ComputeText).
