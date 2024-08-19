@@ -1,0 +1,12 @@
+{
+  "name": "console-example",
+  "type": "module",
+  "scripts": {
+    "non-streaming": "node non-streaming.js",
+    "streaming": "node streaming.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "substrate": "latest"
+  }
+}
