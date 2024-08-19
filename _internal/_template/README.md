@@ -65,7 +65,12 @@ cd _internal
 poetry run marimo edit marketing.py
 ```
 
-If your example is a graph, create a diagram. To edit the diagram, run:
+If your example is a graph, create a diagram.
+
+![diagram](diagram.svg)
+
+
+To edit the diagram, run:
 
 ```bash
 d2 -w diagram.d2 diagram.svg
