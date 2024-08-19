@@ -88,3 +88,5 @@ The output of `MultiComputeText` contains an array of `choices`. If you run this
 1: As the last rays of sunlight faded from the horizon, a lone violinist stood on the edge of the cliff, her music echoing across the deserted beach as the waves crashed against the shore below. The melody seemed to capture the essence of the fleeting moment, a symphony of freedom and solitude that would soon be lost in the darkness of night.
 2: As the last rays of sunlight faded from the horizon, a lone violinist stood on the edge of the ocean, her music dancing across the waves as the stars began to twinkle in the night sky. The melody seemed to capture the essence of the sea itself, a haunting serenade that echoed through the darkness, a symphony of solitude and beauty.
 ```
+
+![diagram](diagram.svg)
