@@ -24,29 +24,29 @@ venv = ".venv"
 # Uncomment for Poetry support
 ##############################
 
-# [build-system]
-# requires = ["poetry-core"]
-# build-backend = "poetry.core.masonry.api"
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
-# [tool.poetry]
-# name = "template"
-# version = "0.1.0"
-# description = ""
-# authors = ["Hanwen Wu <hwwu@substrate.run>"]
-# readme = "README.md"
+[tool.poetry]
+name = "template"
+version = "0.1.0"
+description = ""
+authors = ["Hanwen Wu <hwwu@substrate.run>"]
+readme = "README.md"
 
-# packages = [{ include = "python", from = "src" }]
+packages = [{ include = "python", from = "src" }]
 
-# [tool.poetry.dependencies]
-# python = "^3.9"
-# substrate = "220240617.*"
+[tool.poetry.dependencies]
+python = "^3.9"
+substrate = "220240617.*"
 
-# [tool.poetry.group.dev.dependencies]
-# ruff = "^0.6.1"
-# marimo = "^0.8.0"
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.1"
+marimo = "^0.8.0"
 
-# [tool.poetry.scripts]
-# main = "python.example:main"
+[tool.poetry.scripts]
+main = "python.example:main"
 
 
 ###########################

@@ -1,7 +1,8 @@
 # Title
 
 <details>
-    <summary>How to run this example</summary>
+<summary>How to run this example</summary>
+<br/>
 
 ```bash
 # Set your API key as an environment variable.
@@ -12,10 +13,16 @@ cd typescript                   # Navigate to the typescript example
 npm install                     # Install dependencies
 ts-node example.ts              # Run the example
 
-# Run the Python example
-# Note: First install dependencies in the root examples directory.
+# If using Poetry:
 cd python                       # Navigate to the python example
-poetry run python example.py    # Run the example
+poetry install                  # Install dependencies and build the example
+poetry run main                 # Run the example
+
+# If using Rye:
+# Update pyproject.toml to switch to Rye.
+cd python                       # Navigate to the python example
+rye sync                        # Install dependencies and build the example
+rye run main                    # Run the example
 ```
 
 </details>
@@ -24,13 +31,13 @@ We follow this procedure to create consistent, high volume content.
 
 1. Come up with a short readable slug, e.g. `generate-json` and a title.
 2. Create a folder in the [examples repo](https://github.com/SubstrateLabs/examples), copying this folder
-3. Write the code in TS or Python, and keep it simple. Ideally it’s just a script with no additional dependencies. 
-    1. Consider creating illustrative variations of the script (e.g. `ComputeText` and `MultiComputeText` - [example](https://github.com/SubstrateLabs/examples/tree/main/basics/generate-text))
-    2. Translate your script to the other language. (TODO: automated translation with Substrate)
-    3. Make sure both examples run and produce simple polished output.
-    4. Simplify the code
-        1. Wrap lines (multi-line node declarations are easier to read)
-        2. Consider inlining variables
+3. Write the code in TS or Python, and keep it simple. Ideally it’s just a script with no additional dependencies.
+   1. Consider creating illustrative variations of the script (e.g. `ComputeText` and `MultiComputeText` - [example](https://github.com/SubstrateLabs/examples/tree/main/basics/generate-text))
+   2. Translate your script to the other language. (TODO: automated translation with Substrate)
+   3. Make sure both examples run and produce simple polished output.
+   4. Simplify the code
+      1. Wrap lines (multi-line node declarations are easier to read)
+      2. Consider inlining variables
 4. Fill out this README with walkthrough text and generate new image assets.
 
 ![hero](hero.png)
@@ -81,7 +88,6 @@ poetry run marimo edit marketing.py
 If your example is a graph, create a diagram.
 
 ![diagram](diagram.svg)
-
 
 To edit the diagram, run:
 

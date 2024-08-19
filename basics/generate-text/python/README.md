@@ -11,7 +11,7 @@ export SUBSTRATE_API_KEY=<your Substrate API key>
 cd python
 ```
 
-To run the example with Poetry, uncomment the Poetry sections in `pyproject.toml` and run the following.
+To run the example with Poetry (default),
 
 ```bash
 poetry install
@@ -19,7 +19,7 @@ poetry run example
 poetry run example-multi
 ```
 
-To run the example with Rye, uncomment the Rye sections in `pyproject.toml` and run the following.
+To run the example with Rye, comment out the Poetry sections and uncomment the Rye sections in `pyproject.toml` and run the following.
 
 ```bash
 rye sync
