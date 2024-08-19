@@ -1,5 +1,11 @@
 # Substrate examples
 
+Substrate [Python](https://github.com/SubstrateLabs/substrate-python) and [TypeScript](https://github.com/SubstrateLabs/substrate-typescript) examples.
+
+- [Basics](/basics) – Get started with basic examples.
+- [Techniques](/techniques) – Prompting techniques (Tree of Thought, Mixture of Agents), RAG techniques, and more.
+- [Tutorials](/tutorials) – Integrated use cases, like multi-turn conversations (chat).
+
 ## Getting started
 
 Get your API key from the [Substrate Dashboard](https://substrate/dashboard), and set it as an environment variable:
