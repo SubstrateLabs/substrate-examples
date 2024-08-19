@@ -1,34 +1,19 @@
 {
   "compilerOptions": {
+    "moduleDetection": "force",
+    "module": "Preserve",
+    "resolveJsonModule": true,
     "allowJs": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
+    "isolatedModules": true,
     "strict": true,
     "noEmit": true,
-    "esModuleInterop": true,
-    "module": "commonjs",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./*"]
-    }
-  },
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node",
-    "compilerOptions": {
-      "target": "es2022",
-      "module": "es2022",
-      "moduleResolution": "node",
-      "esModuleInterop": true
-    }
+    "plugins": [{ "name": "next" }],
+    "paths": { "@/*": ["./*"] }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
