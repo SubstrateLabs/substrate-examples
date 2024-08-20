@@ -1,0 +1,20 @@
+{
+  "name": "substrate-example",
+  "version": "1.0.0",
+  "private": "true",
+  "main": "example.ts",
+  "type": "module",
+  "scripts": {
+    "install-substrate": "git clone https://github.com/SubstrateLabs/substrate-typescript /tmp/substrate && cd /tmp/substrate && make build",
+    "start": "npx tsx example.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "duckdb": "latest",
+    "substrate": "file:/tmp/substrate"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "^5"
+  }
+}
