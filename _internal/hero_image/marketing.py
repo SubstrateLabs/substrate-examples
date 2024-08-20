@@ -22,18 +22,19 @@ def __():
 
 @app.cell
 def __(font_name, font_size, mo, text):
-    from PIL import Image, ImageDraw, ImageFont
-    from io import BytesIO
-    import os
     import base64
+    import os
+    from io import BytesIO
     from textwrap import dedent
+
+    from PIL import Image, ImageDraw, ImageFont
 
     width = 1944
     height = 1024
     image = Image.new("RGB", (width, height), color="white")
     draw = ImageDraw.Draw(image)
     try:
-        font = ImageFont.truetype(f"fonts/{font_name}.ttf", font_size)
+        font = ImageFont.truetype(f"../fonts/{font_name}.ttf", font_size)
     except IOError:
         print("Couldn't load font")
         font = ImageFont.load_default(font_size)
@@ -115,10 +116,10 @@ def __(mo):
 @app.cell
 def __(os):
     from substrate import (
-        Substrate,
         GenerateImage,
-        StableDiffusionXLControlNet,
         RemoveBackground,
+        StableDiffusionXLControlNet,
+        Substrate,
         UpscaleImage,
     )
 
@@ -157,9 +158,11 @@ def __(
         strength=0.6,
         num_images=1,
     )
+
+    upscale_prompt = form.value["upscale_prompt"]
     upscale = UpscaleImage(
         image_uri=controlnet.future.outputs[0].image_uri,
-        prompt=f"{form.value["upscale_prompt"]} {prompt}",
+        prompt=f"{upscale_prompt} {prompt}",
         output_resolution=2048,
     )
     res = substrate.run(upscale)
@@ -185,6 +188,7 @@ def __(controlnet, mask, mo, res, upscale):
 @app.cell
 def __(BytesIO, Image, ImageDraw, base64, font, height, text, width, x, y):
     import re
+
     import numpy as np
     from PIL import ImageChops
 
