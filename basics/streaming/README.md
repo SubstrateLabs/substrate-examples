@@ -27,12 +27,13 @@ open http://127.0.0.1:8000      # View the web app
 
 Substrate supports streaming responses in order to help improve the UX of your application by reducing the time it takes before a user sees a response.
 
-The prevailing method of implementing streaming amongst inference providers is via Server-Sent Events and this is what we have chosen due to it's 
+The prevailing method of implementing streaming amongst inference providers is via Server-Sent Events and this is what we have chosen due to it's
 widespread support and simple API.
 
-We've designed our streaming API to work intuitively with the graph-oriented nature of the Substrate system and as a result we will stream back
-messages for every node in the graph you run. We will stream back the completed node result for every node and when possible we will also stream,
-for example when using LLMs.
+We've designed our streaming API to work intuitively with the graph-oriented nature of the Substrate system. As a result we will stream back
+messages for every node in the graph you run and messages relating to the graph as a whole. For many models we only support streaming back the final
+result from a node, but for most LLM nodes we will also stream incremental chunks as the result is produced. We'll use the `ComputeText` node the the
+examples here which emits these chunks within the delta message in the response stream.
 
 In this article we're going to step through the process of making a streaming API request to Substrate and displaying streamed content to the user
 in a web frontend. This example will focus on using NextJS and FastAPI, but there are other code samples included for some other popular alternatives.
@@ -55,7 +56,6 @@ for await (let message of stream) {
     process.stdout.write(message.data.text);
   }
 }
-
 ```
 
 And when using Python it looks like this,
@@ -80,7 +80,7 @@ Because we're only using a single node, we know here that every `node.delta` mes
 the `node_id` - which we can use to identify messages from different nodes, but we're going to keep this example simple with one node.
 
 When building an application that exposes the streaming result of a Substrate graph, what we will need to do is have our backend expose an endpoint
-that reponds with a `text/event-stream`. 
+that reponds with a `text/event-stream`.
 
 When using NextJS you will use a route handler to do so and it will look like this:
 
@@ -94,7 +94,9 @@ const SUBSTRATE_API_KEY = process.env["SUBSTRATE_API_KEY"];
 const substrate = new Substrate({ apiKey: SUBSTRATE_API_KEY });
 
 export async function POST() {
-  const node = new ComputeText({ prompt: "an inspirational programming quote" });
+  const node = new ComputeText({
+    prompt: "an inspirational programming quote",
+  });
   const stream = await substrate.stream(node);
   return new Response(stream.apiResponse.body, {
     headers: { "Content-Type": "text/event-stream" },
@@ -124,11 +126,11 @@ def quote():
 In the TypeScript example we're accessing the response body from the Substrate API and using this stream in the response directly, and in
 the Python example we're exposing an iterator that produces formatted Server-Sent Event messages that can be used in the `StreamingResponse`.
 
-Once these endpoints are setup we need only need to consume these streams on our web front end.
+Once these endpoints are setup we need to consume these streams on our web front end. In the following examples we've implemented a
+simple UI to make the request and as the stream is recieved we upate the content the user is shown one chunk at a time.
 
-In our NextJS example we're able to easily use the `substrate` TypeScript SDK, which exposes a helper method for parsing Server-Sent Event messages
-and making them a little easier to work with. In the following examples we've implemented a simple UI to make the request and as the stream is
-recieved we upate the content the user is shown one chunk at a time.
+In our NextJS example we're able to use the `substrate` TypeScript SDK, which exposes a helper method for parsing Server-Sent Event messages.
+This makes it a little easier to deal with a streaming response in a similar we are on the server.
 
 ```tsx
 "use client";
@@ -159,8 +161,10 @@ export function Example() {
 }
 ```
 
-In our FastAPI example we're not using a JS bundler, but instead are demonstrating how this might work using Vanilla JS and some built-in web APIs
-to accomplish the same task.
+In our FastAPI example we're not using a JS bundler, but instead are demonstrating how this might work when using Vanilla JS and some built-in web APIs
+to accomplish the same task. We're using the `EventSource` object to handle the connection and event-stream parsing, but we'll also need to use `JSON.parse` on
+the message data since we use a structured format for encoding the message contents there. Lastly, we make sure to `close()` the `EventSource`
+once we receive the final message so that we do not make additional stream requests.
 
 ```javascript
 document.addEventListener("DOMContentLoaded", () => {
@@ -186,7 +190,3 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 ```
-
-This the last example, we're using the `EventSource` object to handle the connection and message parsing, but we'll also need to use `JSON.parse` on
-the message data since we use a structured format for encoding the message contents there. Also we'll need to make sure to `close()` the `EventSource`
-once we receive the final message otherwise this API will continue to make re-connections and that's not something we want here.
