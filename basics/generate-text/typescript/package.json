@@ -5,14 +5,15 @@
   "main": "example.ts",
   "type": "module",
   "scripts": {
-    "start": "ts-node example.ts"
+    "example": "npx tsx example.ts",
+    "example-multi": "npx tsx example-multi.ts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "substrate": "^120240617"
   },
   "devDependencies": {
     "@types/node": "^22",
-    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
