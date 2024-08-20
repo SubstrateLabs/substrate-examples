@@ -1,0 +1,11 @@
+{
+  "name": "chat-with-an-llm",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "substrate": "^120240617.1.9"
+  }
+}
