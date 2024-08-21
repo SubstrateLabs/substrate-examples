@@ -1,0 +1,62 @@
+[
+  {
+    "tid": 101,
+    "user_id": 1,
+    "amount": 50.00,
+    "timestamp": "2023-08-15 10:30:00"
+  },
+  {
+    "tid": 102,
+    "user_id": 3,
+    "amount": 25.50,
+    "timestamp": "2023-08-16 14:15:00"
+  },
+  {
+    "tid": 103,
+    "user_id": 2,
+    "amount": 100.00,
+    "timestamp": "2023-08-17 09:45:00"
+  },
+  {
+    "tid": 104,
+    "user_id": 5,
+    "amount": 75.25,
+    "timestamp": "2023-08-18 18:00:00"
+  },
+  {
+    "tid": 105,
+    "user_id": 4,
+    "amount": 30.00,
+    "timestamp": "2023-08-19 12:30:00"
+  },
+  {
+    "tid": 106,
+    "user_id": 1,
+    "amount": 60.75,
+    "timestamp": "2023-08-20 08:15:00"
+  },
+  {
+    "tid": 107,
+    "user_id": 7,
+    "amount": 90.00,
+    "timestamp": "2023-08-21 16:45:00"
+  },
+  {
+    "tid": 108,
+    "user_id": 6,
+    "amount": 45.50,
+    "timestamp": "2023-08-22 11:00:00"
+  },
+  {
+    "tid": 109,
+    "user_id": 3,
+    "amount": 80.20,
+    "timestamp": "2023-08-23 19:30:00"
+  },
+  {
+    "tid": 110,
+    "user_id": 9,
+    "amount": 120.00,
+    "timestamp": "2023-08-24 13:15:00"
+  }
+]

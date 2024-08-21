@@ -1,0 +1,52 @@
+[
+  {
+    "user_id": 1,
+    "name": "Alice",
+    "country_code": "US"
+  },
+  {
+    "user_id": 2,
+    "name": "Bob",
+    "country_code": "CA"
+  },
+  {
+    "user_id": 3,
+    "name": "Charlie",
+    "country_code": "UK"
+  },
+  {
+    "user_id": 4,
+    "name": "David",
+    "country_code": "AU"
+  },
+  {
+    "user_id": 5,
+    "name": "Eva",
+    "country_code": "DE"
+  },
+  {
+    "user_id": 6,
+    "name": "Frank",
+    "country_code": "FR"
+  },
+  {
+    "user_id": 7,
+    "name": "Grace",
+    "country_code": "JP"
+  },
+  {
+    "user_id": 8,
+    "name": "Henry",
+    "country_code": "IN"
+  },
+  {
+    "user_id": 9,
+    "name": "Ivy",
+    "country_code": "BR"
+  },
+  {
+    "user_id": 10,
+    "name": "Jack",
+    "country_code": "CN"
+  }
+]
