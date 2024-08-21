@@ -10,24 +10,17 @@ export SUBSTRATE_API_KEY=ENTER_YOUR_KEY
 
 # Run the TypeScript example
 
-# If using tsx:
-cd typescript                   # Navigate to the typescript example
-npm install                     # Install dependencies
-npm start                       # Run the example
+cd typescript                    # Navigate to the typescript example
+npm install                      # Install dependencies
+npm start                        # Run the example
 
 # Run the Python example
 
-# If using Poetry:
-cd python                       # Navigate to the python example
-poetry install                  # Install dependencies and build the example
-poetry run main                 # TODO: not sure how this should be configured yet.
-poetry run python src/main.py   # Run the example
+# Using poetry
 
-# If using Rye:
-# Update pyproject.toml to switch to Rye.
-cd python
-rye sync
-rye run main
+cd python                        # Navigate to the python example
+poetry install                   # Install dependencies and build the example
+poetry run python src/example.py # Run the example
 ```
 
 </details>
