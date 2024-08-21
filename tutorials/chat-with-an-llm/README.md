@@ -97,7 +97,7 @@ console.log("=== Welcome to the chat! (use ^C to quit)");
 continueThread([]);
 ```
 
-The script itself is mostly setting up getting user input, writing output to the screen, and creating our loop that contains the chat log.
+Most of the program above is handling user inputs, writing outputs, and running our chat loop with a log of what's been said so far.
 
 There's only a little bit of Substrate code required here to prompt an LLM and stream the response back.
 
