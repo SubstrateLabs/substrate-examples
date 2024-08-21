@@ -37,9 +37,9 @@ rye run main
 In this short tutorial we're going to look at how to setup a simple console app to chat with an LLM. 
 
 At a high level, what we're doing is creating a loop where we:
-1. accept user input
-2. generate the LLM response (that includes the chat history in the context)
-3. update the chat history
+1. Accept user input
+2. Generate the LLM response (that includes the chat history in the context)
+3. Update the chat history
 
 Using Substrate we can interact with an LLM using the `ComputeText` node and when we construct the prompt
 we will be including the chat history that includes both the user input and LLM responses.
