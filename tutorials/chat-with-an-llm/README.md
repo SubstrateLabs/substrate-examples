@@ -39,23 +39,24 @@ we will be including the chat history that includes both the user input and LLM 
 
 In NodeJS we can use the following program:
 
-```js
+```typescript
 import readline from "node:readline";
 
 import { Substrate, ComputeText } from "substrate";
 
 const substrate = new Substrate({ apiKey: process.env["SUBSTRATE_API_KEY"] });
 
-const message = (role, content) => ({ role, content });
+type Message = { role: "user" | "assistant", content: string };
+const message = (role: Message["role"], content: Message["content"]): Message => ({ role, content });
 
-const blue = (text) => `\x1b[34m${text}\x1b[0m`;
+const blue = (text: string) => `\x1b[34m${text}\x1b[0m`;
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-const prompt = (log) => `
+const prompt = (log: Message[]) => `
 You are a friendly assistant. Have fun engaging in the conversation.
 
 === Rules
@@ -66,7 +67,7 @@ You are a friendly assistant. Have fun engaging in the conversation.
 === Chat Log
 ${log.map((m) => `[${m.role}]: ${m.content}`).join("\n\n")}`;
 
-const continueThread = (log) => {
+const continueThread = (log: Message[]) => {
   rl.question(`> `, async (userPrompt) => {
     log.push(message("user", userPrompt));
 
