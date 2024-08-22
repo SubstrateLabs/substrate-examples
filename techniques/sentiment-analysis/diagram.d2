@@ -1,0 +1,43 @@
+direction: right
+classes: {
+  substrate: {
+    label: "substrate"
+    style: {
+      font: mono
+      font-color: gray
+      font-size: 20
+      stroke: gray
+      stroke-dash: 1
+      fill: "transparent"
+      border-radius: 16
+    }
+  }
+  node: {
+    style: {
+      font: mono
+      font-size: 24
+      stroke-width: 2
+      fill: transparent
+      stroke: gray
+      border-radius: 16
+      stroke-dash: 1
+      3d: true
+    }
+  }
+  edge: {
+    style: {
+      stroke: "#000"
+      stroke-dash: 2
+    }
+  }
+}
+
+substrate.class: substrate
+substrate.a.class: node
+substrate.b.class: node
+substrate.c.class: node
+substrate.a.label: heuristic
+substrate.b.label: symbolic
+substrate.c.label: computation
+substrate.a->substrate.c { class: edge }
+substrate.b->substrate.c { class: edge }
