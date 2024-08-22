@@ -44,7 +44,7 @@ This technique has been found to be expecially helpful for creating responses to
 better result depends on having clear responses for a set of supporting points. This technique is not a good fit for
 cases that require sequential reasoning or planning however because the points are elaborated on in isolation.
 
-Substrate can make implementing this idea relatively straight forward and because we can run many LLM calls in parallel 
+Substrate can make implementing this idea relatively straight forward and because we can run many LLM calls in paralell 
 it can be done performatly when generating responses for each individual point.
 
 Let's walk through how we might set this up using both TypeScript and Python.
