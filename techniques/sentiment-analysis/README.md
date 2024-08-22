@@ -1,4 +1,4 @@
-# Title
+# Sentiment Analysis
 
 <details>
 <summary>How to run this example</summary>
@@ -35,70 +35,164 @@ rye run main
 
 </details>
 
-We follow this procedure to create consistent, high volume content.
-
-1. Come up with a short readable slug, e.g. `generate-json` and a title.
-2. Create a folder in the [examples repo](https://github.com/SubstrateLabs/examples), copying this folder
-3. Write the code in TS or Python, and keep it simple. Ideally it’s just a script with no additional dependencies.
-   1. Consider creating illustrative variations of the script (e.g. `ComputeText` and `MultiComputeText` - [example](https://github.com/SubstrateLabs/examples/tree/main/basics/generate-text))
-   2. Translate your script to the other language. (TODO: automated translation with Substrate)
-   3. Make sure both examples run and produce simple polished output.
-   4. Simplify the code
-      1. Wrap lines (multi-line node declarations are easier to read)
-      2. Consider inlining variables
-4. Fill out this README with walkthrough text and generate new image assets.
-
 ![hero](hero.png)
 
-To generate text with an LLM, use [`ComputeText`](https://www.substrate.run/nodes#ComputeText).
+Sentiment analysis is used to extract and quantify feelings from text. It's used in many contexts such
+as customer support, customer reviews, recommendations, and more.
 
-In the code snippets below, note how we've simplified the example code to:
+In this example, we'll use LLMs via Substrate to build a simple sentiment analysis pipeline that will
+output scores for how positive, negative, or neutral some given text is and use this to determine an
+overall classification.
 
-- Use a hardcoded API key, rather than reading from an environment variable.
-- Remove the main function
-- Combine getting the result of a node and printing it
+The first thing we're going to do is to is use an LLM to analyze some content and generate a report by
+asking the LLM to write out it's interpretation of the text and score the text. This can be done with
+the `ComputeText` node and some prompt engineering.
 
-Try your best to limit extraneous content in both text and code.
+In TypeScript this could look like this:
 
-```python Python
-# example.py
-from substrate import Substrate, ComputeText
+```typescript
+const message = "what a great product, NOT!";
 
-substrate = Substrate(api_key="YOUR_API_KEY")
+const assess = new ComputeText({
+  prompt: `
+  Your job is to assess a piece of CONTENT on the underlying emotional sentiment it communicates.
+  Please follow the RULES of the assignment and be mindful of the TIPS.
 
-story = ComputeText(prompt="tell me a short 2-sentence story")
-res = substrate.run(story)
+  === RULES
+  Analyze the content and report on POSITIVE sentiment if there is any, NEUTRAL sentiment if there is any, and NEGATIVE sentiment if there is any.
+  Record your rationale for your conclusions.
 
-print(res.get(story).text)
+  Once you have done so, please assign a score for each:
+  POSITIVE (0-100): ___
+  NEUTRAL  (0-100): ___
+  NEGATIVE (0-100): ___
+
+  === TIPS
+  * Sometimes content may seem positive when it is negative, for example when using sarcasm or negation
+  * When the sentiment is mixed, do your best to represent that across the scores
+
+  === CONTENT
+  ${message}
+  `,
+  temperature: 0.2,
+})
 ```
 
-```typescript TypeScript
-// example.ts
-import { Substrate, ComputeText } from "substrate";
+And similarly in Python it could look like this:
 
-const substrate = new Substrate({ apiKey: "YOUR_API_KEY" });
+```python
+message = "what a great product, NOT!"
 
-const story = new ComputeText({ prompt: "tell me a short 2-sentence story" });
-const res = await substrate.run(story);
+assess = ComputeText(
+    prompt=f"""
+    Your job is to assess a piece of CONTENT on the underlying emotional sentiment it communicates.
+    Please follow the RULES of the assignment and be mindful of the TIPS.
 
-console.log(res.get(story).text);
+    === RULES
+    Analyze the content and report on POSITIVE sentiment if there is any, NEUTRAL sentiment if there is any, and NEGATIVE sentiment if there is any.
+    Record your rationale for your conclusions.
+
+    Once you have done so, please assign a score for each:
+    POSITIVE (0-100): ___
+    NEUTRAL  (0-100): ___
+    NEGATIVE (0-100): ___
+
+    === TIPS
+    * Sometimes content may seem positive when it is negative, for example when using sarcasm or negation
+    * When the sentiment is mixed, do your best to represent that across the scores
+
+    === CONTENT
+    ${message}""",
+    temperature=0.2,
+)
 ```
 
-When you're done, generate some images. You'll need a banner image.
+The output of this node will be a `string` of the report, but next we can use a `ComputeJSON` node to extract
+structured data from this report to be used in a real system.
 
-- For the text, keep it simple, e.g. you can just use the name of a node: `ComputeText`.
+In TypeScript the next step could look like this:
 
-```bash
-cd _internal
-poetry run marimo edit marketing.py
+```typescript
+const extract = new ComputeJSON({
+  prompt: sb.interpolate`
+  Your job is to extract the relevant details of the sentiment analysis REPORT.
+  Please do so as accurately as possible and include a short summary of the rationale.
+
+  === REPORT
+  ${assess.future.text}
+  `,
+  json_schema: {
+    type: "object",
+    properties: {
+      positive_score: { type: "integer", minimum: 0, maximum: 100 },
+      neutral_score: { type: "integer", minimum: 0, maximum: 100 },
+      negative_score: { type: "integer", minimum: 0, maximum: 100 },
+      sentiment: { type: "string", enum: ["positive", "neutral", "negative"] },
+      summary: { type: "string" },
+    }
+  }
+})
 ```
 
-If your example is a graph, create a diagram.
+Or in Python, like this:
 
-![diagram](diagram.svg)
+```python
+extract = ComputeJSON(
+    prompt=sb.format(
+        """
+    Your job is to extract the relevant details of the sentiment analysis REPORT.
+    Please do so as accurately as possible and include a short summary of the rationale.
 
-To edit the diagram, run:
-
-```bash
-d2 -w diagram.d2 diagram.svg
+    === REPORT
+    ${report}
+    """,
+        report=assess.future.text,
+    ),
+    json_schema={
+        "type": "object",
+        "properties": {
+            "positive_score": {"type": "integer", "minimum": 0, "maximum": 100},
+            "neutral_score": {"type": "integer", "minimum": 0, "maximum": 100},
+            "negative_score": {"type": "integer", "minimum": 0, "maximum": 100},
+            "sentiment": {"type": "string", "enum": ["positive", "neutral", "negative"]},
+            "summary": {"type": "string"},
+        },
+    },
+)
 ```
+
+We're using a JSON Schema here to structure the outputs exactly how we want them and can ensure the fields
+are constrained as we like. Note here that we're passing in the output of the previous node using the _future_
+provided by the `assess` node we created. This way we can run the entire workflow with a single API request.
+
+Finally we can run this graph like so in TypeScript:
+
+```typescript
+const res = await substrate.run(extract);
+console.log(res.get(extract).json_object);
+```
+
+Or in Python:
+
+```python
+res = substrate.run(extract)
+print(res.get(extract).json_object)
+```
+
+The final result will look like the following:
+
+```json
+{
+  "positive_score": 0,
+  "neutral_score": 0,
+  "negative_score": 100,
+  "sentiment": "negative",
+  "summary": "The sentiment is primarily negative due to the use of sarcasm and negation in the phrase 'NOT!' at the end of the sentence."
+}
+```
+
+You can build on this example further if you like. For example, perhaps there are other dimensions you would like to assess for or
+perhaps there are more details you would like the LLM to pay closer attention too. You could even run the same pipeline multiple
+times on the same data to collect some aggregated assessment of several passes.
+
+We hope this example is helpful for you and that you enjoy working with Substrate as much as we do!
