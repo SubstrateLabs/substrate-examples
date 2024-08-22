@@ -1,6 +1,10 @@
 [project]
-name = "chat-with-an-llm"
+name = "template"
+version = "0.1.0"
+description = ""
+authors = [{ name = "Hanwen Wu", email = "hwwu@substrate.run" }]
 readme = "README.md"
+
 requires-python = ">= 3.9"
 dependencies = ["substrate"]
 
@@ -28,7 +32,7 @@ build-backend = "poetry.core.masonry.api"
 name = "template"
 version = "0.1.0"
 description = ""
-authors = []
+authors = ["Hanwen Wu <hwwu@substrate.run>"]
 readme = "README.md"
 
 packages = [{ include = "python", from = "src" }]
@@ -42,7 +46,7 @@ ruff = "^0.6.1"
 marimo = "^0.8.0"
 
 [tool.poetry.scripts]
-main = "example:main"
+main = "python.example:main"
 
 
 ###########################

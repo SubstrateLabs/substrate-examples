@@ -20,7 +20,7 @@ npm start                        # Run the example
 
 cd python                        # Navigate to the python example
 poetry install                   # Install dependencies and build the example
-poetry run python src/example.py # Run the example
+poetry run main                  # Run the example
 ```
 
 </details>
@@ -161,3 +161,4 @@ We could extend these simple examples in many different ways to suit a new speci
 updating the prompts to guide the LLM responses toward a particular tone or personality. If there is 
 data we'd like the LLM to reference we could incorportate some context from a relevant data source. Enjoy
 exploring what's possible with Substrate.
+
