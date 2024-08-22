@@ -1,11 +1,18 @@
 {
-  "name": "chat-with-an-llm",
+  "name": "substrate-example",
+  "version": "1.0.0",
+  "private": "true",
+  "main": "example.ts",
   "type": "module",
   "scripts": {
-    "start": "node main.js"
+    "start": "npx tsx example.ts",
+    "typecheck": "tsc --noEmit"
   },
-  "license": "MIT",
   "dependencies": {
-    "substrate": "^120240617.1.9"
+    "substrate": "^120240617"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "^5"
   }
 }
