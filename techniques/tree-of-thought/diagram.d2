@@ -1,0 +1,74 @@
+direction: right
+classes: {
+  substrate: {
+    label: "substrate"
+    style: {
+      font: mono
+      font-color: gray
+      font-size: 20
+      stroke: gray
+      stroke-dash: 1
+      fill: "transparent"
+      border-radius: 16
+    }
+  }
+  node: {
+    style: {
+      font: mono
+      font-size: 24
+      stroke-width: 2
+      fill: transparent
+      stroke: gray
+      border-radius: 16
+      stroke-dash: 1
+      3d: true
+    }
+  }
+  edge: {
+    style: {
+      stroke: "#000"
+      stroke-dash: 2
+    }
+  }
+}
+
+substrate.class: substrate
+substrate.a.class: node
+substrate.b.class: node
+substrate.c.class: node
+substrate.d.class: node
+substrate.a.label: expert a
+substrate.b.label: expert b
+substrate.c.label: expert c
+substrate.d.label: consensus
+substrate.a->substrate.d : Idea 1 { class: edge }
+substrate.b->substrate.d : Idea 1 { class: edge }
+substrate.c->substrate.d : Idea 1 { class: edge }
+substrate.e.class: node
+substrate.f.class: node
+substrate.g.class: node
+substrate.h.class: node
+substrate.e.label: expert a
+substrate.f.label: expert b
+substrate.g.label: expert c
+substrate.h.label: consensus
+substrate.d->substrate.e : Expert b Idea 1 { class: edge }
+substrate.d->substrate.f : Expert b Idea 1 { class: edge }
+substrate.d->substrate.g : Expert b Idea 1 { class: edge }
+substrate.e->substrate.h : Idea 2 { class: edge }
+substrate.f->substrate.h : Idea 2 { class: edge }
+substrate.g->substrate.h : Idea 2 { class: edge }
+substrate.i.class: node
+substrate.j.class: node
+substrate.k.class: node
+substrate.l.class: node
+substrate.i.label: expert a
+substrate.j.label: expert b
+substrate.k.label: expert c
+substrate.l.label: consensus
+substrate.h->substrate.i : Expert a Idea 2 { class: edge }
+substrate.h->substrate.j : Expert a Idea 2 { class: edge }
+substrate.h->substrate.k : Expert a Idea 2 { class: edge }
+substrate.i->substrate.l : Idea 3 { class: edge }
+substrate.j->substrate.l : Idea 3 { class: edge }
+substrate.k->substrate.l : Idea 3 { class: edge }
