@@ -35,70 +35,205 @@ rye run main
 
 </details>
 
-We follow this procedure to create consistent, high volume content.
-
-1. Come up with a short readable slug, e.g. `generate-json` and a title.
-2. Create a folder in the [examples repo](https://github.com/SubstrateLabs/examples), copying this folder
-3. Write the code in TS or Python, and keep it simple. Ideally it’s just a script with no additional dependencies.
-   1. Consider creating illustrative variations of the script (e.g. `ComputeText` and `MultiComputeText` - [example](https://github.com/SubstrateLabs/examples/tree/main/basics/generate-text))
-   2. Translate your script to the other language. (TODO: automated translation with Substrate)
-   3. Make sure both examples run and produce simple polished output.
-   4. Simplify the code
-      1. Wrap lines (multi-line node declarations are easier to read)
-      2. Consider inlining variables
-4. Fill out this README with walkthrough text and generate new image assets.
-
 ![hero](hero.png)
 
-To generate text with an LLM, use [`ComputeText`](https://www.substrate.run/nodes#ComputeText).
+[Skeleton of Thought](https://www.prompthub.us/blog/reducing-latency-with-skeleton-of-thought-prompting) is a technique used to generate improved LLM content by first creating a skeleton containing
+an outline of points to include and then generating content for each point before stitching the final content together.
 
-In the code snippets below, note how we've simplified the example code to:
+This technique has been found to be expecially helpful for creating responses to "knowlege" oriented queries where a
+better result depends on having clear responses for a set of supporting points. This technique is not a good fit for
+cases that require sequential reasoning or planning however because the points are elaborated on in isolation.
 
-- Use a hardcoded API key, rather than reading from an environment variable.
-- Remove the main function
-- Combine getting the result of a node and printing it
+Substrate can make implementing this idea relatively straight forward and because we can run many LLM calls in parallel 
+it can be done performatly when generating responses for each individual point.
 
-Try your best to limit extraneous content in both text and code.
+Let's walk through how we might set this up using both TypeScript and Python.
 
-```python Python
-# example.py
-from substrate import Substrate, ComputeText
+First we'll need to make sure we're importing the SDK object we need and initializing the Substrate API client.
 
-substrate = Substrate(api_key="YOUR_API_KEY")
+In TypeScript it will look like this:
 
-story = ComputeText(prompt="tell me a short 2-sentence story")
-res = substrate.run(story)
-
-print(res.get(story).text)
+```typescript
+import { ComputeText, ComputeJSON, Substrate, sb } from "substrate";
+const apiKey = process.env["SUBSTRATE_API_KEY"] || "YOUR_API_KEY";
+const substrate = new Substrate({ apiKey: apiKey });
 ```
 
-```typescript TypeScript
-// example.ts
-import { Substrate, ComputeText } from "substrate";
+In Python it will look like this:
 
-const substrate = new Substrate({ apiKey: "YOUR_API_KEY" });
+```python
+import os
 
-const story = new ComputeText({ prompt: "tell me a short 2-sentence story" });
-const res = await substrate.run(story);
+from substrate import ComputeJSON, ComputeText, Substrate, sb
 
-console.log(res.get(story).text);
+
+api_key = os.environ.get("SUBSTRATE_API_KEY") or "YOUR_API_KEY"
+substrate = Substrate(api_key=api_key)
 ```
 
-When you're done, generate some images. You'll need a banner image.
+The first thing we'll need to do is setup our skeleton given a question. We're going to prompt an LLM
+to generate this for us, then extract the outline from the generated text into a well-defined schema.
 
-- For the text, keep it simple, e.g. you can just use the name of a node: `ComputeText`.
+Here's what this could look like in TypeScript:
 
-```bash
-cd _internal
-poetry run marimo edit marketing.py
+```typescript
+const question = "What are some underrated olympic sports?";
+
+const outlineText = new ComputeText({
+prompt: sb.interpolate`
+You’re an organizer responsible for only giving the outline (not the full content) for answering the question.
+Provide the outline in a list of points (numbered 1., 2., 3., etc.) to answer the question.
+Instead of writing a full sentence, each skeleton point should be very short with only 3∼5 words.
+
+=== Question
+${question}`,
+});
+
+const outlineList = new ComputeJSON({
+prompt: sb.interpolate`Extract the numbered outline items from the following (do not keep the item number):\n ${outlineText.future.text}`,
+json_schema: {
+  type: "object",
+  properties: {
+    outline: {
+      type: "array",
+      minItems: 3,
+      maxItems: 10,
+      items: {
+        type: "string",
+      },
+    },
+  },
+  required: ["outline"],
+},
+});
+
+const outlineRes = await substrate.run(outlineList);
+const outline = outlineRes.get(outlineList).json_object!.outline as string[];
 ```
 
-If your example is a graph, create a diagram.
+In Python the code will look largely the same:
 
-![diagram](diagram.svg)
+```python
+question = "what are some underrated olympic sports?"
 
-To edit the diagram, run:
+outline_text = ComputeText(
+    prompt=f"""
+You’re an organizer responsible for only giving the outline (not the full content) for answering the question.
+Provide the outline in a list of points (numbered 1., 2., 3., etc.) to answer the question.
+Instead of writing a full sentence, each skeleton point should be very short with only 3∼5 words.
 
-```bash
-d2 -w diagram.d2 diagram.svg
+=== Question
+{question}`,
+    """
+)
+
+outline_list = ComputeJSON(
+    prompt =sb.format("""
+Extract the numbered outline items from the following (do not keep the item number):
+
+{text}""", text=outline_text.future.text),
+    json_schema = {
+      "type": "object",
+      "properties": {
+        "outline": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 10,
+          "items": {
+            "type": "string",
+          },
+        },
+      },
+      "required": ["outline"],
+    },
+)
+res = substrate.run(outline_list)
+outline = res.get(outline_list).json_object["outline"]
 ```
+
+Once we have the skeleton generated, we can expand on each point with an LLM per item. These will be run
+in paralell on Substrate. Then we can collect all the points and use another LLM to combine this content 
+into a cohesive reply to the original question.
+
+In TypeScript it will look like the following:
+
+```typescript
+const pointExpanders = outline.map((point) => {
+return new ComputeText(
+  {
+    prompt: sb.interpolate`
+You're responsible for continuing the writing of one and only one point in the overall answer to the following question.
+Write it very shortly in 1∼2 sentence and do not continue with other points!
+
+=== The question is
+${question}
+
+=== The outline of the answer is
+${outline as any}
+
+Continue and only continue the writing of point: ${point}.`,
+  },
+);
+});
+
+const combined = new ComputeText({
+prompt: sb.interpolate`
+  Rewrite the following into a fluid, cohesive answer to the question. 
+  Make use of all the content already outlined.
+
+  === Question
+  ${question}
+
+  === Outlined Content
+  ${sb.concat(...pointExpanders.map((p) => sb.concat(p.future.text, "\n")))}`,
+});
+
+const res = await substrate.run(combined);
+console.log(res.get(combined).text);
+```
+
+And in Python it will look similar:
+
+```python
+point_expanders = [
+    ComputeText(
+        prompt=f"""
+You're responsible for continuing the writing of one and only one point in the overall answer to the following question.
+Write it very shortly in 1∼2 sentence and do not continue with other points!
+
+=== The question is
+{question}
+
+=== The outline of the answer is
+{outline}
+
+Continue and only continue the writing of point: {point}.`,
+        outline"""
+    )
+    for point
+    in outline
+]
+
+points = sb.concat(*[
+    sb.concat(point.future.text, "\n")
+    for point
+    in point_expanders
+])
+
+combined = ComputeText(
+    prompt = sb.format("""
+Rewrite the following into a fluid, cohesive answer to the question. 
+Make use of all the content already outlined.
+
+=== Question
+{question}
+
+=== Outlined Content
+{points}""", question=question, points=points)
+)
+
+res = substrate.run(combined)
+print(res.get(combined).text)
+```
+
+We hope you find this technique useful and that Substrate helps you implement this with ease!
