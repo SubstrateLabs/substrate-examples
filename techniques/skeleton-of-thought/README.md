@@ -55,6 +55,7 @@ In TypeScript it will look like this:
 
 ```typescript
 import { ComputeText, ComputeJSON, Substrate, sb } from "substrate";
+
 const apiKey = process.env["SUBSTRATE_API_KEY"] || "YOUR_API_KEY";
 const substrate = new Substrate({ apiKey: apiKey });
 ```
@@ -80,31 +81,31 @@ Here's what this could look like in TypeScript:
 const question = "What are some underrated olympic sports?";
 
 const outlineText = new ComputeText({
-prompt: sb.interpolate`
-You’re an organizer responsible for only giving the outline (not the full content) for answering the question.
-Provide the outline in a list of points (numbered 1., 2., 3., etc.) to answer the question.
-Instead of writing a full sentence, each skeleton point should be very short with only 3∼5 words.
-
-=== Question
-${question}`,
+  prompt: sb.interpolate`
+  You’re an organizer responsible for only giving the outline (not the full content) for answering the question.
+  Provide the outline in a list of points (numbered 1., 2., 3., etc.) to answer the question.
+  Instead of writing a full sentence, each skeleton point should be very short with only 3∼5 words.
+  
+  === Question
+  ${question}`,
 });
 
 const outlineList = new ComputeJSON({
-prompt: sb.interpolate`Extract the numbered outline items from the following (do not keep the item number):\n ${outlineText.future.text}`,
-json_schema: {
-  type: "object",
-  properties: {
-    outline: {
-      type: "array",
-      minItems: 3,
-      maxItems: 10,
-      items: {
-        type: "string",
+  prompt: sb.interpolate`Extract the numbered outline items from the following (do not keep the item number):\n ${outlineText.future.text}`,
+  json_schema: {
+    type: "object",
+    properties: {
+      outline: {
+        type: "array",
+        minItems: 3,
+        maxItems: 10,
+        items: {
+          type: "string",
+        },
       },
     },
+    required: ["outline"],
   },
-  required: ["outline"],
-},
 });
 
 const outlineRes = await substrate.run(outlineList);
@@ -159,21 +160,21 @@ In TypeScript it will look like the following:
 
 ```typescript
 const pointExpanders = outline.map((point) => {
-return new ComputeText(
-  {
-    prompt: sb.interpolate`
-You're responsible for continuing the writing of one and only one point in the overall answer to the following question.
-Write it very shortly in 1∼2 sentence and do not continue with other points!
-
-=== The question is
-${question}
-
-=== The outline of the answer is
-${outline as any}
-
-Continue and only continue the writing of point: ${point}.`,
-  },
-);
+  return new ComputeText(
+    {
+      prompt: sb.interpolate`
+  You're responsible for continuing the writing of one and only one point in the overall answer to the following question.
+  Write it very shortly in 1∼2 sentence and do not continue with other points!
+  
+  === The question is
+  ${question}
+  
+  === The outline of the answer is
+  ${outline as any}
+  
+  Continue and only continue the writing of point: ${point}.`,
+    },
+  );
 });
 
 const combined = new ComputeText({
