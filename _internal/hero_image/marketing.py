@@ -13,9 +13,9 @@ def __():
 @app.cell
 def __():
     # Try to keep the text simple, one or two words.
-    text = """ComputeText"""
-    font_name = "IBMPlexMono-Bold"  # For code
-    # font_name = "IBMPlexSans-Medium"  # For text
+    text = """Tree of Thought"""
+    # font_name = "IBMPlexMono-Bold"  # For code
+    font_name = "IBMPlexSans-Medium"  # For text
     font_size = 250  # You may need to decrease this
     return font_name, font_size, text
 
@@ -89,7 +89,7 @@ def __(mo):
         - high altitude drone footage birds eye view of mountain range with clouds and crashing turbulent ocean waves at sunset
 
         {gen_prompt}
-        
+
         #### Alternate prompts
         - highly detailed anime scene miyazaki ghost in the shell bright colors
         - highly detailed art deco illustration

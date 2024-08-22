@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "substrate-examples"
+version = "0.1.0"
+description = "Various examples of Substrate usage"
+authors = ["Substrate <eng@substrate.run>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+marimo = "^0.8.0"
+pillow = "^10.4.0"
+numpy = "^2.1.0"
+substrate = "^220240617.1.8"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
